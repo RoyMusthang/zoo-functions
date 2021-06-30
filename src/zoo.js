@@ -1,8 +1,10 @@
-const data = require('./data');
+// dica do querido Bernado Salgueiro sobre puxar os pontos do arquivo data
+const { employees, species, prices, hours } = require('./data');  
 
-function getSpeciesByIds(ids) {
-  // seu código aqui
-  n.a
+function getSpeciesByIds(...ids) {
+  if (ids.length === 0) return [];
+  const speciesIds = species.filter((specie) => ids.includes(specie.id));
+  return speciesIds;
 }
 
 function getAnimalsOlderThan(animal, age) {
