@@ -1,20 +1,20 @@
 // dica do querido Bernado Salgueiro sobre puxar os pontos do arquivo data
-const { employees, species, prices, hours } = require('./data');
+const data = require('./data');
 
 function getSpeciesByIds(...ids) {
   if (ids.length === 0) return [];
-  const speciesIds = species.filter((specie) => ids.includes(specie.id));
+  const speciesIds = data.species.filter((specie) => ids.includes(specie.id));
   return speciesIds;
 }
 
 function getAnimalsOlderThan(animal, age) {
-  const animais = species.find((specie) => specie.name === animal);
+  const animais = data.species.find((specie) => specie.name === animal);
   return animais.residents.every((resident) => resident.age >= age);
 }
 
 function getEmployeeByName(employeeName) {
   if (!employeeName) return {};
-  return employees.find((name) => name.firstName === employeeName
+  return data.employees.find((name) => name.firstName === employeeName
    || name.lastName === employeeName);
 }
 
@@ -26,11 +26,18 @@ function createEmployee(personalInfo, associatedWith) {
 }
 
 function isManager(id) {
-  return employees.some(({ managers }) => managers.includes(id));
+  return data.employees.some(({ managers }) => managers.includes(id));
 }
 
-function addEmployee(id, firstName, lastName, managers, responsibleFor) {
-  // seu código aqui
+function addEmployee(id, firstName, lastName, managers = [], responsibleFor = []) {
+  const addName = {
+    id,
+    firstName,
+    lastName,
+    managers,
+    responsibleFor,
+  };
+  return data.employees.push(addName);
 }
 
 function countAnimals(especies) {
