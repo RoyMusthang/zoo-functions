@@ -88,10 +88,40 @@ function increasePrices(percentage) {
   });
 }
 
-function getEmployeeCoverage(idOrName) {
-  // seu código aqui
-}
+const createObject = (employee) => {
+  const object = {};
+  const fullName = `${employee.firstName} ${employee.lastName}`;
+  object[fullName] = [];
+  employee.responsibleFor.forEach((res) => {
+    const { name } = data.species.find(({ id }) => id === res);
+    object[fullName].push(name);
+  });
+  return object;
+};
 
+const findById = (id) => {
+  const find = data.employees.find((employee) => employee.id === id);
+  return createObject(find);
+};
+
+const findByName = (name) => {
+  const find = data.employees.find(({ firstName, lastName }) => firstName === name
+    || lastName === name);
+  return createObject(find);
+};
+
+function getEmployeeCoverage(idOrName) {
+  if (!idOrName) {
+    const object = {};
+    data.employees.forEach((employee) => {
+      Object.assign(object, createObject(employee));
+    });
+    return object;
+  }
+  if (idOrName.length > 25) return findById(idOrName);
+  return findByName(idOrName);
+}
+// vlw zezé salvou na 13... cabelo tava bolado hoje
 module.exports = {
   calculateEntry,
   getSchedule,
