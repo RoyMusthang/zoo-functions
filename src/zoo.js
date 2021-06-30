@@ -1,5 +1,5 @@
 // dica do querido Bernado Salgueiro sobre puxar os pontos do arquivo data
-const { employees, species, prices, hours } = require('./data');  
+const { employees, species, prices, hours } = require('./data');
 
 function getSpeciesByIds(...ids) {
   if (ids.length === 0) return [];
@@ -8,12 +8,14 @@ function getSpeciesByIds(...ids) {
 }
 
 function getAnimalsOlderThan(animal, age) {
-  const animals = species.find((specie) => specie.name === animal);
-  return animals.residents.every((resident) => resident.age >= age);
+  const animais = species.find((specie) => specie.name === animal);
+  return animais.residents.every((resident) => resident.age >= age);
 }
 
 function getEmployeeByName(employeeName) {
-  // seu código aqui
+  if (!employeeName) return {};
+  return employees.find((name) => name.firstName === employeeName
+   || name.lastName === employeeName);
 }
 
 function createEmployee(personalInfo, associatedWith) {
@@ -28,7 +30,7 @@ function addEmployee(id, firstName, lastName, managers, responsibleFor) {
   // seu código aqui
 }
 
-function countAnimals(species) {
+function countAnimals(especies) {
   // seu código aqui
 }
 
