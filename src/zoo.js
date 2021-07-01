@@ -55,72 +55,9 @@ const calculateEntry = (entrants) => {
   return Object.keys(entrants).reduce((acc, cur) => acc + entrants[cur] * data.prices[cur], 0);
 };
 
-const optionUndefined = () => {
-  const acharAnimaisLocalization = (localization) => data.species.filter((specie) =>
-    specie.location === localization).map((specie2) => specie2.name);
-  const localizations = ['NE', 'NW', 'SE', 'SW'];
-  const resultado = {};
-  const tipoAnimais = localizations.map((localization) => acharAnimaisLocalization(localization));
-  localizations.forEach((key, index) => {
-    resultado[key] = tipoAnimais[index];
-  });
-  return resultado;
-};
+function getAnimalMap(options) {
 
-const animaisSexSortTrueFalse = (localization, index, sex = undefined, sorted = undefined) => {
-  let acharAnimaisSexTrueFalse;
-  if (sex === undefined) {
-    acharAnimaisSexTrueFalse = data.species.filter((specie) => specie.location === localization)
-      .map((specie2) => specie2.residents.map((name) => name.name))[index];
-  } else {
-    acharAnimaisSexTrueFalse = data.species.filter((specie) => specie.location === localization)
-      .map((specie2) => (specie2.residents.filter((specie) => specie.sex === sex)
-        .map((name) => name.name)))[index];
-  }
-  let ordemTrueFalse;
-  if (sorted === true) {
-    ordemTrueFalse = acharAnimaisSexTrueFalse.sort();
-  } else {
-    ordemTrueFalse = acharAnimaisSexTrueFalse;
-  }
-  return ordemTrueFalse;
-};
-
-const indexLocalization = (localizations) => data.species.map((localizatio) => localizatio.location)
-  .filter((loc) => loc === localizations);
-
-const animaisLocalization = (localization, index) => data.species.filter((specie) =>
-  specie.location === localization).map((specie2) => specie2.name)[index];
-
-const objetosTiposNames = (localization, index, sex, sorted) => {
-  const objeto = {
-    [animaisLocalization(localization, index)]:
-      animaisSexSortTrueFalse(localization, index, sex, sorted),
-  };
-  return objeto;
-};
-
-const arrayTiposNames = (localization, sex, sorted) => {
-  const array = [];
-  const localizations = indexLocalization(localization);
-  for (let index = 0; index < localizations.length; index += 1) {
-    array.push(objetosTiposNames(localization, index, sex, sorted));
-  }
-  return array;
-};
-
-const getAnimalMap = (options = undefined) => {
-  if (options === undefined || options.includeNames === undefined) {
-    return optionUndefined();
-  }
-  const { sex = undefined, sorted = undefined } = options;
-  const localizations = ['NE', 'NW', 'SE', 'SW'];
-  const objeto = {};
-  localizations.forEach((key) => {
-    objeto[key] = arrayTiposNames(key, sex, sorted);
-  });
-  return objeto;
-};
+}
 
 function hoursConverter(hour) {
   if (hour > 12) return `${(hour - 12)}pm`;
