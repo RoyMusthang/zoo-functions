@@ -2,7 +2,7 @@ const data = require('./data');
 
 function getSpeciesByIds(...ids) {
   if (!ids) return [];
-  return data.species.filter((specie) => ids.includes(specie.id));
+  return ids.map((id) => data.species.find((specie) => specie.id === id));
 }
 
 function getAnimalsOlderThan(animal, age) {
@@ -12,8 +12,8 @@ function getAnimalsOlderThan(animal, age) {
 
 function getEmployeeByName(employeeName) {
   if (!employeeName) return {};
-  return data.employees.find((name) => name.firstName === employeeName
-   || name.lastName === employeeName);
+  return data.employees.find((employee) => employee.firstName === employeeName
+   || employee.lastName === employeeName);
 }
 
 function createEmployee(personalInfo, associatedWith) {
@@ -24,7 +24,7 @@ function createEmployee(personalInfo, associatedWith) {
 }
 
 function isManager(id) {
-  return data.employees.some(({ managers }) => managers.includes(id));
+  return data.employees.some((employee) => employee.managers.includes(id));
 }
 
 function addEmployee(id, firstName, lastName, managers = [], responsibleFor = []) {
