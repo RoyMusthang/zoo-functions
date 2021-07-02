@@ -1,10 +1,8 @@
-// dica do querido Bernado Salgueiro sobre puxar os pontos do arquivo data
 const data = require('./data');
 
 function getSpeciesByIds(...ids) {
-  if (ids.length === 0) return [];
-  const speciesIds = data.species.filter((specie) => ids.includes(specie.id));
-  return speciesIds;
+  if (!ids) return [];
+  return data.species.filter((specie) => ids.includes(specie.id));
 }
 
 function getAnimalsOlderThan(animal, age) {
