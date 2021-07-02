@@ -53,8 +53,35 @@ const calculateEntry = (entrants) => {
   return Object.keys(entrants).reduce((acc, cur) => acc + entrants[cur] * data.prices[cur], 0);
 };
 
-function getAnimalMap(options) {
+function getAnimalName(animalName, sorted, sex) {
+  let result = data.species.find((animal) => animal.name === animalName);
+  result = result.residents;
+  if (typeof sex === 'string') {
+    result = result.filter((animal) => animal.sex === sex);
+  }
+  result = result.map((resident) => resident.name);
+  if (sorted) result.sort();
+  return { [animalName]: result };
+}
 
+function getAnimalMap(options = {}) {
+  const { includeNames = false, sorted = false, sex } = options;
+  let result = data.species.reduce((acc, cur) => {
+    const { name, location } = cur;
+    if (!acc[location]) {
+      acc[location] = [];
+    }
+    acc[location].push(name);
+    return acc;
+  }, {});
+
+  if (includeNames) {
+    result = Object.entries(result).reduce((acc, [key, animalName]) => {
+      acc[key] = animalName.map((name) => getAnimalName(name, sorted, sex));
+      return acc;
+    }, {});
+  }
+  return result;
 }
 
 function hoursConverter(hour) {
